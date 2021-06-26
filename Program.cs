@@ -13,7 +13,7 @@ namespace SearchUniqueWordsApp
             //get text file
             //var inputTextFilePath = Console.ReadLine();
             string file = "C://Users//Admin//Desktop//Programming//c#//AllTests//voyna-i-mir.txt";
-
+            string separatedStr = "-------------------------------------------------------------";
             if (File.Exists(file))
             {
                 Console.WriteLine("Wait...");
@@ -25,61 +25,57 @@ namespace SearchUniqueWordsApp
                     string allText = sr.ReadToEnd().Replace(Environment.NewLine, " ").Replace(",", "").Replace(".", "").Replace("-", "");
                     string[] inputTextAsList = allText.Split(" ");
 
-                    #region old method
-                    //var start = DateTime.Now;
-                    //var uniqueWords = inputTextAsList.Distinct();
-
-                    //sort unique words by count
-                    //uniqueWords = uniqueWords.OrderBy(word => GetCountOfWord(inputTextAsList, word)).Reverse();
-                    //var end = DateTime.Now;
-                    //var speed = end - start;
-
-                    //show 20 words
-                    //Console.WriteLine("TOP 20 words");
-                    //for (int i = 0; i < 20; i++)
-                    //{
-                    //    string oneLineResult = uniqueWords.ToList()[i] + " " + GetCountOfWord(inputTextAsList, uniqueWords.ToList()[i]);
-                    //    Console.WriteLine(oneLineResult);
-                    //}
-                    //Console.WriteLine("Complete! TotalDuration = " + speed);
-                    //Console.WriteLine();
-                    #endregion
-
                     //other method
                     var start = DateTime.Now;
                     var uniqueWords = GetDublicatesWithIndexList(inputTextAsList);
 
                     //show 20 words
-                    Console.WriteLine("TOP 20 words");
+                    Console.WriteLine("\nTOP 20 words");
                     int maxCount = 20;
                     int startCount = 0;
-                    foreach (var pair in uniqueWords.OrderBy(pair => pair.Value.Count()).Reverse())
+                    foreach (var selectedWord in uniqueWords.OrderBy(pair => pair.Value.Count()).Reverse())
                     {
                         if(startCount < maxCount)
                         {
-                            string newLineResult = String.Format("Word: {0}, Count: {1}", pair.Key, pair.Value.Count());
+                            string newLineResult = String.Format("\nMain word: {0}, count: {1}", selectedWord.Key, selectedWord.Value.Count());
                             Console.WriteLine(newLineResult);
-                            //find 5 
 
+                            //find 5 closed words 
+                            int maxCountForAdded = 5;
+                            int startCountForAdded = 0;
+
+                            var allAddWords = new List<string>();
+                            foreach(int i in uniqueWords[selectedWord.Key])
+                            {
+                                allAddWords.Add(inputTextAsList[i - 1]);
+                                allAddWords.Add(inputTextAsList[i + 1]);
+                            }
+                            var dublicatesForSelectedWord = GetDublicatesWithIndexList(allAddWords);
+                            foreach (var addWord in dublicatesForSelectedWord.OrderBy(newPair => newPair.Value.Count()).Reverse())
+                            {
+                                if (startCountForAdded < maxCountForAdded)
+                                {
+                                    string secondLineResult = String.Format("Additional word: {0}, count: {1}", addWord.Key, addWord.Value.Count());
+                                    Console.WriteLine(secondLineResult);
+                                    startCountForAdded++;
+                                }
+                                else { break; }
+                            }
+                            Console.WriteLine(separatedStr);
                             startCount++;
                         }
                         else { break; }
                     }
                     var end = DateTime.Now;
                     var speed = end - start;
-                    Console.WriteLine();
                     
-                    Console.WriteLine("Complete! Total duration = " + speed);
+                    Console.WriteLine("\nComplete! Total duration = " + speed);
                 }
             }
             else
             {
                 Console.WriteLine("File is not exist");
             }
-        }
-        private static void Get5Words(IEnumerable<string> textAsArray, string word)
-        {
-
         }
         private static Dictionary<string, List<int>> GetDublicatesWithIndexList(IEnumerable<string> textAsArray)
         {
