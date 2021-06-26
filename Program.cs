@@ -22,7 +22,7 @@ namespace SearchUniqueWordsApp
                 using (StreamReader sr = new StreamReader(file, enc1251))
                 {
                     //get input text
-                    string allText = sr.ReadToEnd().Replace(Environment.NewLine, " ").Replace(",", "").Replace(".", "").Replace("-", "");
+                    string allText = sr.ReadToEnd().Replace(Environment.NewLine, " ").Trim(new Char[] { ' ', '*', '.', ',', }).Replace("-", "");
                     string[] inputTextAsList = allText.Split(" ");
 
                     //other method
