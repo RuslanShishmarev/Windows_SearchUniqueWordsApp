@@ -11,9 +11,9 @@ namespace SearchUniqueWordsApp
         static void Main(string[] args)
         {
             //get text file
-            //var inputTextFilePath = Console.ReadLine();
+            //var file = Console.ReadLine();
             string file = "C://Users//Admin//Desktop//Programming//c#//AllTests//voyna-i-mir.txt";
-            string separatedStr = "-------------------------------------------------------------";
+            string separatedStr = "------------------------";
             if (File.Exists(file))
             {
                 Console.WriteLine("Wait...");
@@ -62,6 +62,7 @@ namespace SearchUniqueWordsApp
                                 else { break; }
                             }
                             Console.WriteLine(separatedStr);
+                            //--------------------------------------
                             startCount++;
                         }
                         else { break; }
