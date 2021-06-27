@@ -11,8 +11,8 @@ namespace SearchUniqueWordsApp
         static void Main(string[] args)
         {
             //get text file
-            //var file = Console.ReadLine();
-            string file = "C://Users//Admin//Desktop//Programming//c#//AllTests//voyna-i-mir.txt";
+            string file = Console.ReadLine();
+            //string file = "voyna-i-mir_sm.txt";
             string separatedStr = "------------------------";
             if (File.Exists(file))
             {
@@ -21,11 +21,11 @@ namespace SearchUniqueWordsApp
                 var enc1251 = Encoding.GetEncoding(1251);
                 using (StreamReader sr = new StreamReader(file, enc1251))
                 {
-                    //get input text
+                    //get text from file
                     string allText = sr.ReadToEnd().Replace(Environment.NewLine, " ").Trim(new Char[] { ' ', '*', '.', ',', }).Replace("-", "");
                     string[] inputTextAsList = allText.Split(" ");
 
-                    //other method
+                    //start method
                     var start = DateTime.Now;
                     var uniqueWords = GetDublicatesWithIndexList(inputTextAsList);
 
